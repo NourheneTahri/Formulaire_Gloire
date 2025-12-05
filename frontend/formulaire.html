@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Formulaire de la Gloire</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #f59e0b;
+      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --glass: rgba(255, 255, 255, 0.15);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+      --shadow-hover: 0 30px 80px rgba(99, 102, 241, 0.2);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #f5f7ff 0%, #e6ecff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      position: relative;
+      overflow-x: hidden;
+    }
+    
+    .background-animation {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+      pointer-events: none;
+    }
+    
+    .floating-shape {
+      position: absolute;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(245, 158, 11, 0.1) 100%);
+      filter: blur(40px);
+    }
+    
+    .shape-1 {
+      width: 300px;
+      height: 300px;
+      top: 10%;
+      left: 5%;
+      animation: float 25s infinite ease-in-out;
+    }
+    
+    .shape-2 {
+      width: 200px;
+      height: 200px;
+      bottom: 15%;
+      right: 10%;
+      animation: float 20s infinite ease-in-out reverse;
+    }
+    
+    .shape-3 {
+      width: 150px;
+      height: 150px;
+      top: 50%;
+      left: 80%;
+      animation: float 15s infinite ease-in-out;
+    }
+    
+    @keyframes float {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-30px) rotate(180deg); }
+    }
+    
+    .card-container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 480px;
+      perspective: 1000px;
+    }
+    
+    .card {
+      background: var(--card-bg);
+      border-radius: 24px;
+      padding: 40px 35px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      transform-style: preserve-3d;
+      transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .card:hover {
+      transform: translateY(-15px) rotateX(5deg);
+      box-shadow: var(--shadow-hover);
+    }
+    
+    .card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: var(--gradient);
+    }
+    
+    .card-header {
+      text-align: center;
+      margin-bottom: 35px;
+      position: relative;
+    }
+    
+    .title-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      background: var(--gradient);
+      border-radius: 50%;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    }
+    
+    .title-icon i {
+      font-size: 32px;
+      color: white;
+    }
+    
+    h2 {
+      font-size: 28px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+      letter-spacing: -0.5px;
+    }
+    
+    .subtitle {
+      color: #6b7280;
+      font-size: 15px;
+      font-weight: 500;
+    }
+    
+    .form-group {
+      margin-bottom: 24px;
+      position: relative;
+    }
+    
+    .form-label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: 600;
+      color: #374151;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .required {
+      color: #ef4444;
+      margin-left: 4px;
+    }
+    
+    .input-container {
+      position: relative;
+    }
+    
+    .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--primary);
+      font-size: 18px;
+      z-index: 1;
+    }
+    
+    input, textarea {
+      width: 100%;
+      padding: 16px 16px 16px 52px;
+      border: 2px solid #e5e7eb;
+      border-radius: 14px;
+      font-size: 16px;
+      font-family: 'Inter', sans-serif;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background: white;
+      color: #1f2937;
+    }
+    
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+      transform: translateY(-2px);
+    }
+    
+    textarea {
+      min-height: 140px;
+      resize: vertical;
+      line-height: 1.5;
+    }
+    
+    .floating-label {
+      position: absolute;
+      top: -10px;
+      left: 12px;
+      background: white;
+      padding: 0 8px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--primary);
+      opacity: 0;
+      transition: all 0.3s;
+    }
+    
+    input:focus ~ .floating-label,
+    textarea:focus ~ .floating-label,
+    input:not(:placeholder-shown) ~ .floating-label,
+    textarea:not(:placeholder-shown) ~ .floating-label {
+      opacity: 1;
+      transform: translateY(-5px);
+    }
+    
+    .form-actions {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+    }
+    
+    .btn {
+      flex: 1;
+      padding: 18px 24px;
+      border: none;
+      border-radius: 14px;
+      font-weight: 700;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      letter-spacing: 0.3px;
+    }
+    
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
+      box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+    }
+    
+    .btn-primary:hover {
+      transform: translateY(-5px) scale(1.02);
+      box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: #6b7280;
+      border: 2px solid #e5e7eb;
+    }
+    
+    .btn-secondary:hover {
+      background: #f9fafb;
+      border-color: #d1d5db;
+      transform: translateY(-3px);
+    }
+    
+    .footer-note {
+      text-align: center;
+      margin-top: 25px;
+      font-size: 14px;
+      color: #9ca3af;
+    }
+    
+    .easter-egg-hint {
+      color: var(--secondary);
+      font-weight: 600;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .easter-egg-hint:hover::after {
+      content: "Écris 'gloire' pour une surprise!";
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1f2937;
+      color: white;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 12px;
+      white-space: nowrap;
+      margin-bottom: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .character-count {
+      position: absolute;
+      right: 16px;
+      bottom: 16px;
+      font-size: 13px;
+      color: #9ca3af;
+      background: white;
+      padding: 2px 8px;
+      border-radius: 10px;
+    }
+    
+    @media (max-width: 768px) {
+      .card {
+        padding: 30px 25px;
+      }
+      
+      .form-actions {
+        flex-direction: column;
+      }
+      
+      h2 {
+        font-size: 24px;
+      }
+      
+      .title-icon {
+        width: 60px;
+        height: 60px;
+      }
+      
+      .title-icon i {
+        font-size: 28px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      body {
+        padding: 15px;
+      }
+      
+      .card {
+        padding: 25px 20px;
+        border-radius: 20px;
+      }
+    }
+    
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 5;
+    }
+  </style>
+</head>
+<body>
+  <div class="background-animation">
+    <div class="floating-shape shape-1"></div>
+    <div class="floating-shape shape-2"></div>
+    <div class="floating-shape shape-3"></div>
+  </div>
+  
+  <div class="card-container">
+    <section class="card">
+      <div class="card-header">
+        <div class="title-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h2>Formulaire de la Gloire</h2>
+        <p class="subtitle">Participez et tentez de remporter la victoire ultime</p>
+      </div>
+      
+      <form id="gloryForm" autocomplete="off">
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fas fa-user" style="margin-right: 8px;"></i>
+            Nom complet
+            <span class="required">*</span>
+          </label>
+          <div class="input-container">
+            <div class="input-icon">
+              <i class="fas fa-user-circle"></i>
+            </div>
+            <input 
+              name="name" 
+              id="name" 
+              type="text" 
+              placeholder="Votre nom héroïque" 
+              required 
+            />
+            <span class="floating-label">Nom héroïque</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fas fa-envelope" style="margin-right: 8px;"></i>
+            Adresse email
+            <span class="required">*</span>
+          </label>
+          <div class="input-container">
+            <div class="input-icon">
+              <i class="fas fa-at"></i>
+            </div>
+            <input 
+              name="email" 
+              id="email" 
+              type="email" 
+              placeholder="votre@email.com" 
+              required 
+            />
+            <span class="floating-label">Email de contact</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fas fa-tag" style="margin-right: 8px;"></i>
+            Sujet du message
+            <span class="required">*</span>
+          </label>
+          <div class="input-container">
+            <div class="input-icon">
+              <i class="fas fa-edit"></i>
+            </div>
+            <input 
+              name="subject" 
+              id="subject" 
+              type="text" 
+              placeholder="Sujet de votre participation" 
+              required 
+            />
+            <span class="floating-label">Sujet de légende</span>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">
+            <i class="fas fa-comment-alt" style="margin-right: 8px;"></i>
+            Votre message
+            <span class="required">*</span>
+          </label>
+          <div class="input-container">
+            <div class="input-icon" style="top: 20px; transform: none;">
+              <i class="fas fa-pen"></i>
+            </div>
+            <textarea 
+              name="message" 
+              id="message" 
+              placeholder="Décrivez pourquoi vous méritez de gagner..." 
+              required
+              maxlength="500"
+            ></textarea>
+            <span class="floating-label">Message épique</span>
+            <div class="character-count">
+              <span id="charCount">0</span>/500
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button id="submitBtn" type="submit" class="btn btn-primary">
+            <i class="fas fa-paper-plane"></i>
+            Envoyer ma candidature
+          </button>
+          <button id="back" type="button" class="btn btn-secondary">
+            <i class="fas fa-arrow-left"></i>
+            Retour
+          </button>
+        </div>
+        
+        <div class="footer-note">
+          <p>En soumettant ce formulaire, vous acceptez de participer à la compétition de la Gloire.</p>
+          <p style="margin-top: 8px;">
+            <span class="easter-egg-hint">✨ Astuce secrète ✨</span>
+          </p>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <canvas id="confetti"></canvas>
+
+  <script src="script.js"></script>
+  <script>
+    // Compteur de caractères pour le textarea
+    const messageTextarea = document.getElementById('message');
+    const charCount = document.getElementById('charCount');
+    
+    messageTextarea.addEventListener('input', function() {
+      charCount.textContent = this.value.length;
+      
+      // Changer la couleur si on approche de la limite
+      if (this.value.length > 450) {
+        charCount.style.color = '#ef4444';
+      } else if (this.value.length > 400) {
+        charCount.style.color = '#f59e0b';
+      } else {
+        charCount.style.color = '#9ca3af';
+      }
+    });
+    
+    // Animation 3D de la carte au survol
+    const card = document.querySelector('.card');
+    const cardContainer = document.querySelector('.card-container');
+    
+    cardContainer.addEventListener('mousemove', (e) => {
+      const xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+      const yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+      card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+    
+    cardContainer.addEventListener('mouseenter', () => {
+      card.style.transition = 'none';
+    });
+    
+    cardContainer.addEventListener('mouseleave', () => {
+      card.style.transition = 'transform 0.5s ease';
+      card.style.transform = `rotateY(0deg) rotateX(0deg)`;
+    });
+    
+    // Effet d'onde sur les boutons
+    document.querySelectorAll('.btn').forEach(button => {
+      button.addEventListener('click', function(e) {
+        const x = e.clientX - e.target.getBoundingClientRect().left;
+        const y = e.clientY - e.target.getBoundingClientRect().top;
+        
+        const ripple = document.createElement('span');
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+        ripple.classList.add('ripple');
+        
+        this.appendChild(ripple);
+        
+        setTimeout(() => {
+          ripple.remove();
+        }, 600);
+      });
+    });
+    
+    // Ajout des styles pour l'effet ripple
+    const style = document.createElement('style');
+    style.textContent = `
+      .ripple {
+        position: absolute;
+        border-radius: 50%;
+        background: rgba(255, 255, 255, 0.7);
+        transform: scale(0);
+        animation: ripple 0.6s linear;
+      }
+      
+      @keyframes ripple {
+        to {
+          transform: scale(4);
+          opacity: 0;
+        }
+      }
+      
+      .btn {
+        position: relative;
+        overflow: hidden;
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Back button functionality
+    document.getElementById('back').addEventListener('click', () => {
+      window.location.href = 'index.html';
+    });
+  </script>
+</body>
+</html>  

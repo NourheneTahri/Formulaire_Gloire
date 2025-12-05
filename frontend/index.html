@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>La Gloire t'Attend</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-dark: #4f46e5;
+      --secondary: #f59e0b;
+      --gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      --gradient-alt: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      --gradient-gold: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+      --glass: rgba(255, 255, 255, 0.15);
+      --shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    html, body {
+      height: 100%;
+      overflow-x: hidden;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    
+    body {
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+      color: white;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    /* Étoiles de fond */
+    .stars {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 1;
+    }
+    
+    .star {
+      position: absolute;
+      background-color: white;
+      border-radius: 50%;
+      animation: twinkle var(--duration) infinite ease-in-out;
+    }
+    
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.2; }
+      50% { opacity: 1; }
+    }
+    
+    /* Particules flottantes */
+    .particles {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+      pointer-events: none;
+    }
+    
+    .particle {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: var(--gradient);
+      border-radius: 50%;
+      filter: blur(1px);
+      opacity: 0.7;
+    }
+    
+    /* Container principal */
+    .container {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      max-width: 1200px;
+      text-align: center;
+    }
+    
+    /* NOUVEAU - HEADER ÉPOUSTOUFLANT */
+    .hero-header {
+      width: 100%;
+      margin-bottom: 40px;
+    }
+    
+    /* Carte héroïque améliorée */
+    .hero-card {
+      background: rgba(255, 255, 255, 0.08);
+      backdrop-filter: blur(30px);
+      border-radius: 32px;
+      padding: 70px 60px;
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 
+        0 35px 70px -15px rgba(0, 0, 0, 0.35),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1),
+        0 0 0 1px rgba(255, 255, 255, 0.05);
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 60px;
+      transform-style: preserve-3d;
+      perspective: 1000px;
+      border-image: linear-gradient(45deg, var(--primary), var(--secondary)) 1;
+    }
+    
+    /* Effet de lumière sur les bords */
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 12px;
+      background: var(--gradient);
+      border-radius: 32px 32px 0 0;
+      z-index: 2;
+    }
+    
+    /* Effet de lueur interne */
+    .hero-card::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+      filter: blur(60px);
+      z-index: -1;
+      animation: pulseGlow 4s infinite alternate;
+    }
+    
+    @keyframes pulseGlow {
+      0% { opacity: 0.3; transform: translate(-50%, -50%) scale(0.8); }
+      100% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.2); }
+    }
+    
+    /* Logo amélioré */
+    .logo-container {
+      position: relative;
+      margin-bottom: 40px;
+    }
+    
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 140px;
+      height: 140px;
+      background: var(--gradient);
+      border-radius: 50%;
+      box-shadow: 
+        0 25px 50px rgba(99, 102, 241, 0.5),
+        0 0 100px rgba(99, 102, 241, 0.3),
+        inset 0 0 30px rgba(255, 255, 255, 0.2);
+      animation: floatLogo 6s infinite ease-in-out;
+      margin-left: auto;
+      margin-right: auto;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .logo::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      right: -10px;
+      bottom: -10px;
+      background: var(--gradient);
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0.5;
+      z-index: -1;
+      animation: pulseGlowLogo 3s infinite alternate;
+    }
+    
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(5deg); }
+    }
+    
+    @keyframes pulseGlowLogo {
+      0% { opacity: 0.3; transform: scale(0.95); }
+      100% { opacity: 0.7; transform: scale(1.05); }
+    }
+    
+    .logo i {
+      font-size: 56px;
+      color: white;
+      filter: drop-shadow(0 5px 15px rgba(0, 0, 0, 0.3));
+    }
+    
+    /* Couronne flottante autour du logo */
+    .floating-crowns {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 200px;
+      height: 200px;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+    
+    .crown {
+      position: absolute;
+      font-size: 24px;
+      color: var(--secondary);
+      animation: floatCrown 8s infinite linear;
+      opacity: 0.6;
+    }
+    
+    .crown:nth-child(1) { top: 0; left: 50%; animation-delay: 0s; }
+    .crown:nth-child(2) { top: 20%; right: 10%; animation-delay: -2s; }
+    .crown:nth-child(3) { bottom: 20%; left: 10%; animation-delay: -4s; }
+    .crown:nth-child(4) { bottom: 0; right: 30%; animation-delay: -6s; }
+    .crown:nth-child(5) { top: 40%; left: 5%; animation-delay: -1s; }
+    
+    @keyframes floatCrown {
+      0% { transform: rotate(0deg) translateX(40px) rotate(0deg); }
+      100% { transform: rotate(360deg) translateX(40px) rotate(-360deg); }
+    }
+    
+    /* Titre amélioré */
+    .title-container {
+      position: relative;
+      margin-bottom: 30px;
+    }
+    
+    h1 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 900;
+      margin-bottom: 15px;
+      background: linear-gradient(135deg, #fff 0%, #c7d2fe 50%, #f59e0b 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1.1;
+      letter-spacing: -1px;
+      text-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      position: relative;
+      z-index: 2;
+    }
+    
+    .title-highlight {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .title-highlight::after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 0;
+      width: 100%;
+      height: 12px;
+      background: linear-gradient(90deg, transparent, var(--primary), transparent);
+      opacity: 0.2;
+      z-index: -1;
+      border-radius: 6px;
+      transform: scaleX(0.8);
+      animation: highlightPulse 3s infinite alternate;
+    }
+    
+    @keyframes highlightPulse {
+      0% { transform: scaleX(0.8); opacity: 0.1; }
+      100% { transform: scaleX(1); opacity: 0.3; }
+    }
+    
+    /* Émojis animés autour du titre */
+    .title-emoji {
+      position: absolute;
+      font-size: 28px;
+      animation: floatEmoji 5s infinite ease-in-out;
+      z-index: 1;
+    }
+    
+    .emoji-left { left: -40px; top: 50%; animation-delay: 0s; }
+    .emoji-right { right: -40px; top: 50%; animation-delay: -2.5s; }
+    .emoji-top { top: -30px; left: 50%; animation-delay: -1s; }
+    .emoji-bottom { bottom: -30px; left: 50%; animation-delay: -3s; }
+    
+    @keyframes floatEmoji {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(10deg); }
+    }
+    
+    /* Sous-titre amélioré */
+    .subtitle {
+      font-size: clamp(20px, 2.8vw, 26px);
+      margin-bottom: 50px;
+      color: #e2e8f0;
+      max-width: 700px;
+      line-height: 1.6;
+      font-weight: 400;
+      margin-left: auto;
+      margin-right: auto;
+      padding: 0 20px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      white-space: normal;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+      text-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+    }
+    
+    .subtitle::before {
+      content: '✨';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.3;
+    }
+    
+    .subtitle::after {
+      content: '✨';
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      opacity: 0.3;
+    }
+    
+    /* Bouton principal amélioré */
+    .btn-container {
+      position: relative;
+      margin-bottom: 50px;
+      z-index: 2;
+    }
+    
+    .btn-hero {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 18px;
+      background: var(--gradient);
+      color: white;
+      padding: 26px 60px;
+      font-size: 22px;
+      font-weight: 800;
+      border-radius: 20px;
+      text-decoration: none;
+      box-shadow: 
+        0 25px 50px rgba(99, 102, 241, 0.5),
+        0 0 80px rgba(99, 102, 241, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+      border: none;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      border: 2px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    .btn-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+      transition: 0.8s;
+    }
+    
+    .btn-hero:hover {
+      transform: translateY(-10px) scale(1.08);
+      box-shadow: 
+        0 35px 70px rgba(99, 102, 241, 0.7),
+        0 0 120px rgba(99, 102, 241, 0.5),
+        inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      letter-spacing: 2px;
+    }
+    
+    .btn-hero:hover::before {
+      left: 100%;
+    }
+    
+    .btn-hero i {
+      font-size: 28px;
+      transition: all 0.3s;
+    }
+    
+    .btn-hero:hover i.fa-star {
+      transform: rotate(180deg) scale(1.3);
+      color: var(--secondary);
+    }
+    
+    .btn-hero:hover i.fa-arrow-right {
+      transform: translateX(10px) scale(1.2);
+    }
+    
+    /* Effet de particules sur le bouton */
+    .btn-sparks {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      border-radius: inherit;
+    }
+    
+    /* Section des fonctionnalités */
+    .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 50px;
+      max-width: 1000px;
+      width: 100%;
+    }
+    
+    .feature {
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 20px;
+      padding: 30px;
+      flex: 1;
+      min-width: 250px;
+      max-width: 300px;
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.3s;
+      backdrop-filter: blur(10px);
+    }
+    
+    .feature:hover {
+      transform: translateY(-10px);
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(99, 102, 241, 0.3);
+    }
+    
+    .feature-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 70px;
+      height: 70px;
+      background: var(--gradient-alt);
+      border-radius: 18px;
+      margin-bottom: 20px;
+    }
+    
+    .feature-icon i {
+      font-size: 28px;
+      color: white;
+    }
+    
+    .feature h3 {
+      font-size: 20px;
+      margin-bottom: 15px;
+      color: white;
+    }
+    
+    .feature p {
+      color: #94a3b8;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    
+    /* Indice secret */
+    .secret-hint {
+      margin-top: 60px;
+      padding: 25px 35px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(251, 191, 36, 0.05) 100%);
+      border-radius: 20px;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+      position: relative;
+      overflow: hidden;
+      max-width: 550px;
+      margin-left: auto;
+      margin-right: auto;
+      backdrop-filter: blur(10px);
+    }
+    
+    .secret-hint::before {
+      content: '✨';
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      font-size: 50px;
+      opacity: 0.5;
+      animation: spin 10s infinite linear;
+    }
+    
+    .secret-hint::after {
+      content: '✨';
+      position: absolute;
+      bottom: -20px;
+      right: -20px;
+      font-size: 50px;
+      opacity: 0.5;
+      animation: spin 10s infinite linear reverse;
+    }
+    
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    
+    .hint-text {
+      font-size: 18px;
+      color: #fef3c7;
+      position: relative;
+      z-index: 2;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      font-weight: 500;
+    }
+    
+    .hint-text span {
+      color: #fbbf24;
+      font-weight: 800;
+      text-shadow: 0 0 15px rgba(245, 158, 11, 0.7);
+      cursor: help;
+      position: relative;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .hint-text span:hover::after {
+      content: 'Écris "gloire" dans le formulaire !';
+      position: absolute;
+      bottom: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #1f2937;
+      color: #fbbf24;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 14px;
+      white-space: nowrap;
+      margin-bottom: 15px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      z-index: 100;
+    }
+    
+    /* Animation de texte défilant */
+    .scrolling-text {
+      position: fixed;
+      bottom: 30px;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 14px;
+      color: #64748b;
+      z-index: 10;
+      opacity: 0.7;
+      animation: fadeInOut 4s infinite;
+      padding: 0 20px;
+    }
+    
+    @keyframes fadeInOut {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 0.8; }
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-card {
+        padding: 50px 30px;
+        border-radius: 28px;
+      }
+      
+      .logo {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .logo i {
+        font-size: 48px;
+      }
+      
+      h1 {
+        font-size: clamp(32px, 5vw, 48px);
+      }
+      
+      .subtitle {
+        font-size: 18px;
+        padding: 0 15px;
+      }
+      
+      .btn-hero {
+        padding: 22px 40px;
+        font-size: 20px;
+      }
+      
+      .title-emoji {
+        display: none;
+      }
+      
+      .features {
+        flex-direction: column;
+        align-items: center;
+      }
+      
+      .feature {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .hero-card {
+        padding: 40px 20px;
+        border-radius: 24px;
+      }
+      
+      .logo {
+        width: 100px;
+        height: 100px;
+      }
+      
+      .logo i {
+        font-size: 40px;
+      }
+      
+      h1 {
+        font-size: 28px;
+      }
+      
+      .subtitle {
+        font-size: 16px;
+        padding: 0 10px;
+      }
+      
+      .btn-hero {
+        padding: 18px 30px;
+        font-size: 18px;
+      }
+      
+      .secret-hint {
+        padding: 20px 25px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Étoiles de fond -->
+  <div class="stars" id="stars"></div>
+  
+  <!-- Particules flottantes -->
+  <div class="particles" id="particles"></div>
+  
+  <div class="container">
+    <!-- NOUVEAU HEADER AMÉLIORÉ -->
+    <div class="hero-header">
+      <div class="hero-card">
+        <div class="logo-container">
+          <!-- Couronnes flottantes -->
+          <div class="floating-crowns">
+            <div class="crown">👑</div>
+            <div class="crown">👑</div>
+            <div class="crown">👑</div>
+            <div class="crown">👑</div>
+            <div class="crown">👑</div>
+          </div>
+          
+          <!-- Logo principal -->
+          <div class="logo">
+            <i class="fas fa-trophy"></i>
+          </div>
+        </div>
+        
+        <div class="title-container">
+          <!-- Émojis autour du titre -->
+          <div class="title-emoji emoji-left">🌟</div>
+          <div class="title-emoji emoji-right">✨</div>
+          <div class="title-emoji emoji-top">🏆</div>
+          <div class="title-emoji emoji-bottom">🎖️</div>
+          
+          <!-- Titre principal -->
+          <h1>
+            <span class="title-highlight">FORMULAIRE</span><br>
+            <span class="title-highlight">DE LA GLOIRE</span>
+          </h1>
+        </div>
+        
+        <p class="subtitle">
+          Remplissez le formulaire épique et découvrez votre destin héroïque
+        </p>
+        
+        <div class="btn-container">
+          <a href="formulaire.html" class="btn-hero">
+            <i class="fas fa-star"></i>
+            Commencer l'Aventure
+            <i class="fas fa-arrow-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Section des fonctionnalités -->
+    <div class="features">
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-medal"></i>
+        </div>
+        <h3>Compétition Épique</h3>
+        <p>Participez à la compétition ultime et mesurez-vous aux meilleurs.</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-magic"></i>
+        </div>
+        <h3>Surprises Magiques</h3>
+        <p>Découvrez des effets visuels spectaculaires et des surprises cachées.</p>
+      </div>
+      
+      <div class="feature">
+        <div class="feature-icon">
+          <i class="fas fa-trophy"></i>
+        </div>
+        <h3>Victoire Assurée</h3>
+        <p>Chaque participant a sa chance de briller et de remporter la gloire.</p>
+      </div>
+    </div>
+    
+    <!-- Indice secret -->
+    <div class="secret-hint">
+      <p class="hint-text">
+        🔥 <span>Astuce secrète</span> : Écris "gloire" dans le formulaire pour débloquer des surprises spéciales !
+      </p>
+    </div>
+    
+    <div class="scrolling-text">
+      <i class="fas fa-info-circle"></i> Votre chemin vers la gloire commence ici
+    </div>
+  </div>
+
+  <script>
+    // Création des étoiles de fond
+    const starsContainer = document.getElementById('stars');
+    for (let i = 0; i < 200; i++) {
+      const star = document.createElement('div');
+      star.classList.add('star');
+      star.style.width = `${Math.random() * 4 + 1}px`;
+      star.style.height = star.style.width;
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.top = `${Math.random() * 100}vh`;
+      star.style.setProperty('--duration', `${Math.random() * 4 + 1}s`);
+      starsContainer.appendChild(star);
+    }
+    
+    // Création des particules flottantes
+    const particlesContainer = document.getElementById('particles');
+    for (let i = 0; i < 80; i++) {
+      const particle = document.createElement('div');
+      particle.classList.add('particle');
+      particle.style.width = `${Math.random() * 10 + 3}px`;
+      particle.style.height = particle.style.width;
+      particle.style.left = `${Math.random() * 100}vw`;
+      particle.style.top = `${Math.random() * 100}vh`;
+      particle.style.background = i % 3 === 0 ? 'var(--gradient)' : 
+                                 i % 3 === 1 ? 'var(--gradient-alt)' : 
+                                 'var(--gradient-gold)';
+      
+      // Animation de flottement
+      const duration = Math.random() * 25 + 15;
+      const delay = Math.random() * 5;
+      particle.style.animation = `float ${duration}s ${delay}s infinite ease-in-out`;
+      
+      particlesContainer.appendChild(particle);
+    }
+    
+    // Animation CSS pour les particules
+    const style = document.createElement('style');
+    style.textContent = `
+      @keyframes float {
+        0%, 100% {
+          transform: translateY(0) translateX(0) rotate(0deg);
+        }
+        25% {
+          transform: translateY(-30px) translateX(15px) rotate(90deg);
+        }
+        50% {
+          transform: translateY(-60px) translateX(-15px) rotate(180deg);
+        }
+        75% {
+          transform: translateY(-30px) translateX(15px) rotate(270deg);
+        }
+      }
+    `;
+    document.head.appendChild(style);
+    
+    // Effet de parallaxe amélioré
+    document.addEventListener('mousemove', (e) => {
+      const x = (e.clientX / window.innerWidth) * 2 - 1;
+      const y = (e.clientY / window.innerHeight) * 2 - 1;
+      
+      const card = document.querySelector('.hero-card');
+      if (card) {
+        card.style.transform = `
+          translateX(${x * 15}px) 
+          translateY(${y * 15}px) 
+          rotateX(${y * 3}deg) 
+          rotateY(${x * 3}deg)
+        `;
+      }
+      
+      // Déplacement des particules
+      document.querySelectorAll('.particle').forEach((particle, index) => {
+        const speed = (parseFloat(particle.style.width) * 0.3) + (index * 0.01);
+        particle.style.transform = `
+          translateX(${x * speed}px) 
+          translateY(${y * speed}px)
+        `;
+      });
+      
+      // Déplacement des couronnes
+      document.querySelectorAll('.crown').forEach((crown, index) => {
+        const offset = (index + 1) * 0.5;
+        crown.style.transform = `
+          translateX(${x * offset}px) 
+          translateY(${y * offset}px)
+        `;
+      });
+    });
+    
+    // Effet de clic sur le bouton amélioré
+    const btnHero = document.querySelector('.btn-hero');
+    if (btnHero) {
+      btnHero.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        // Effet sonore (simulé)
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        
+        // Création d'effet de particules amélioré
+        for (let i = 0; i < 40; i++) {
+          const spark = document.createElement('div');
+          spark.style.position = 'fixed';
+          spark.style.width = `${Math.random() * 12 + 4}px`;
+          spark.style.height = spark.style.width;
+          spark.style.backgroundColor = i % 3 === 0 ? '#6366f1' : 
+                                       i % 3 === 1 ? '#f59e0b' : 
+                                       '#f5576c';
+          spark.style.borderRadius = '50%';
+          spark.style.left = `${e.clientX}px`;
+          spark.style.top = `${e.clientY}px`;
+          spark.style.pointerEvents = 'none';
+          spark.style.zIndex = '1000';
+          spark.style.boxShadow = '0 0 20px currentColor';
+          spark.style.filter = 'blur(1px)';
+          
+          const angle = Math.random() * Math.PI * 2;
+          const speed = Math.random() * 4 + 2;
+          const vx = Math.cos(angle) * speed;
+          const vy = Math.sin(angle) * speed;
+          const rotationSpeed = (Math.random() - 0.5) * 0.2;
+          
+          document.body.appendChild(spark);
+          
+          let opacity = 1;
+          let rotation = 0;
+          const animate = () => {
+            opacity -= 0.015;
+            rotation += rotationSpeed;
+            spark.style.opacity = opacity;
+            spark.style.left = `${parseFloat(spark.style.left) + vx}px`;
+            spark.style.top = `${parseFloat(spark.style.top) + vy}px`;
+            spark.style.transform = `rotate(${rotation}rad) scale(${opacity})`;
+            
+            if (opacity > 0) {
+              requestAnimationFrame(animate);
+            } else {
+              spark.remove();
+            }
+          };
+          
+          animate();
+        }
+        
+        // Redirection après l'animation
+        setTimeout(() => {
+          window.location.href = 'formulaire.html';
+        }, 500);
+      });
+    }
+    
+    // Animation des features au survol
+    document.querySelectorAll('.feature').forEach(feature => {
+      feature.addEventListener('mouseenter', function() {
+        const icon = this.querySelector('.feature-icon');
+        if (icon) {
+          icon.style.transform = 'rotate(360deg) scale(1.2)';
+          icon.style.transition = 'transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
+          icon.style.background = 'var(--gradient)';
+        }
+      });
+      
+      feature.addEventListener('mouseleave', function() {
+        const icon = this.querySelector('.feature-icon');
+        if (icon) {
+          icon.style.transform = 'rotate(0) scale(1)';
+          icon.style.background = 'var(--gradient-alt)';
+        }
+      });
+    });
+    
+    // Effet de scroll reveal
+    window.addEventListener('scroll', () => {
+      const scrolled = window.pageYOffset;
+      const rate = scrolled * -0.5;
+      
+      document.querySelector('.hero-card').style.transform = 
+        `translateY(${rate}px)`;
+    });
+  </script>
+</body>
+</html>
